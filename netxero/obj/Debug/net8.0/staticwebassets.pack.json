@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/ajeshjhalli/netxero/netxero/obj/Debug/net8.0/scopedcss/projectbundle/netxero.bundle.scp.css",
+      "PackagePath": "staticwebassets/netxero.bundle.scp.css"
+    },
+    {
+      "Id": "/Users/ajeshjhalli/netxero/netxero/wwwroot/app.css",
+      "PackagePath": "staticwebassets/app.css"
+    },
+    {
+      "Id": "/Users/ajeshjhalli/netxero/netxero/wwwroot/bootstrap/bootstrap.min.css",
+      "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css"
+    },
+    {
+      "Id": "/Users/ajeshjhalli/netxero/netxero/wwwroot/bootstrap/bootstrap.min.css.map",
+      "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css.map"
+    },
+    {
+      "Id": "/Users/ajeshjhalli/netxero/netxero/wwwroot/favicon.png",
+      "PackagePath": "staticwebassets/favicon.png"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.netxero.props",
+      "PackagePath": "build\\netxero.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.netxero.props",
+      "PackagePath": "buildMultiTargeting\\netxero.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.netxero.props",
+      "PackagePath": "buildTransitive\\netxero.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.netxero.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
