@@ -54,3 +54,4 @@
 /Users/ajeshjhalli/netxero/netxero/bin/Debug/net8.0/runtimes/win-x64/native/e_sqlite3.dll
 /Users/ajeshjhalli/netxero/netxero/bin/Debug/net8.0/runtimes/win-x86/native/e_sqlite3.dll
 /Users/ajeshjhalli/netxero/netxero/obj/Debug/net8.0/netxero.csproj.Up2Date
+/Users/ajeshjhalli/netxero/netxero/obj/Debug/net8.0/netxero.sourcelink.json
