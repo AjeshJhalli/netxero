@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Data.Sqlite;
-using netxero.Components.Pages;
 
 static class PersonService
 {

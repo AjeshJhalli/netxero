@@ -3,7 +3,9 @@ import sqlite3
 conn = sqlite3.connect("./databases/HotelRoomAllocator.sqlite")
 cur = conn.cursor();
 
-cur.execute("DROP TABLE IF EXISTS hotel");
+cur.execute("drop table booking")
+cur.execute("drop table room")
+cur.execute("drop table allocation")
 
 cur.execute("""CREATE TABLE IF NOT EXISTS person (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,6 +40,7 @@ cur.execute("""CREATE TABLE IF NOT EXISTS room (
   creation_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
   booking_id INTEGER,
   type TEXT,
+  date_start DATETIME,
   capacity INTEGER NOT NULL,
   nights INTEGER NOT NULL
 )""");
