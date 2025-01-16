@@ -10,20 +10,24 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Address</th>
+      <th>Booking ID</th>
+      <th>Hotel</th>
+      <th>Date</th>
+      <th>Status</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
-    @foreach (var hotel in hotels)
+    @foreach (var booking in bookings)
     {
       <tr>
-        <td>@hotel.name</td>
-        <td>@hotel.addressLine1, @hotel.addressCity, @hotel.addressCountry, @hotel.addressPostcode</td>
+        <td>@booking.id</td>
+        <td>@booking.hotelName</td>
+        <td></td>
+        <td>@booking.status</td>
         <td>
-          <a class="btn btn-secondary" href="/hotel-form?id=@hotel.id">Edit</a>
-          <button class="btn btn-secondary" @onclick="() => DeleteHotel(hotel.id)">Delete</button>
+          <a class="btn btn-secondary" href="/booking-form?id=@booking.id">Edit</a>
+          <button class="btn btn-secondary" @onclick="() => DeleteBooking(booking.id)">Delete</button>
         </td>
       </tr>
     }
@@ -31,11 +35,11 @@
 </table>
 
 
-<a class="btn btn-primary" href="hotel-form">New</a>
+<a class="btn btn-primary" href="booking-form">New</a>
 
 @code {
 
-  private List<HotelService.Hotel> hotels = [];
+  private List<BookingService.Booking> bookings = [];
 
   protected override void OnInitialized()
   {
@@ -44,24 +48,24 @@
       connection.Open();
 
       var command = connection.CreateCommand();
-      command.CommandText = @"SELECT id, name, address_line1, address_city, address_country, address_postcode FROM hotel";
+      command.CommandText = @"SELECT booking.id AS booking_id, hotel_id, hotel.name AS hotel_name, status FROM booking LEFT JOIN hotel ON booking.hotel_id = hotel.id";
       var reader = command.ExecuteReader();
 
       while (reader.Read())
       {
-        HotelService.Hotel hotel = new(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), "", reader.GetString(3), "", reader.GetString(4), reader.GetString(5));
-        hotels.Add(hotel);
+        BookingService.Booking booking = new(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3));
+        bookings.Add(booking);
       }
     }
   }
 
-  public async Task DeleteHotel(int id)
+  public async Task DeleteBooking(int id)
   {
-    bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this hotel?");
+    bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this booking?");
     if (confirmed)
     {
-      HotelService.Delete(id);
-      NavigationManager.NavigateTo("/hotels", forceLoad: true);
+      BookingService.Delete(id);
+      NavigationManager.NavigateTo("/bookings", forceLoad: true);
     }
 
   }

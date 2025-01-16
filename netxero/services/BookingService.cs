@@ -13,12 +13,14 @@ static class BookingService
     }
     [Required(ErrorMessage = "Hotel is required")]
     public int hotelId { get; set; }
+    public string hotelName { get; set; }
     public string status { get; set; }
     
-    public Booking(int _id, int _hotelId, string _status)
+    public Booking(int _id, int _hotelId, string _hotelName, string _status)
     {
       id = _id;
       hotelId = _hotelId;
+      hotelName = _hotelName;
       status = _status;
     }
   };
@@ -45,19 +47,19 @@ static class BookingService
       connection.Open();
 
       var command = connection.CreateCommand();
-      command.CommandText = @"SELECT hotel_id, status FROM booking WHERE id = $id";
+      command.CommandText = @"SELECT hotel_id, hotel.name AS hotel_name, status FROM booking LEFT JOIN hotel ON booking.hotel_id = hotel.id WHERE booking.id = $id";
       command.Parameters.AddWithValue("$id", id);
 
       var reader = command.ExecuteReader();
 
       if (reader.Read())
       {
-        Booking booking = new(id, reader.GetInt32(0), reader.GetString(1));
+        Booking booking = new(id, reader.GetInt32(0), reader.GetString(1), reader.GetString(1));
         return booking;
       }
       else
       {
-        return new Booking(0, 0, "Provisional");
+        return new Booking(0, 0, "", "Provisional");
       }
     }
   }

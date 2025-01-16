@@ -22,6 +22,10 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9BcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/ajeshjhalli/netxero/netxero/Components/Pages/BookingForm.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Cb29raW5nRm9ybS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/ajeshjhalli/netxero/netxero/Components/Pages/Bookings.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Cb29raW5ncy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

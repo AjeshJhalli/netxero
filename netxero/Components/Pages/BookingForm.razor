@@ -1,0 +1,102 @@
+@page "/booking-form"
+@using Microsoft.Data.Sqlite
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.WebUtilities
+
+<PageTitle>Booking</PageTitle>
+
+<h1>Booking</h1>
+
+<EditForm Model="Model" OnValidSubmit="Save" FormName="bookingform">
+  <AntiforgeryToken />
+  <DataAnnotationsValidator />
+  <ValidationSummary />
+  <div class="form-group">
+    <label>
+      Hotel
+      <InputSelect class="form-select" @bind-Value="Model!.hotelId">
+        @foreach (var hotel in hotels)
+        {
+          <option value="@hotel.id">@hotel.name</option>
+        }
+      </InputSelect>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      Status
+      <InputSelect class="form-select" @bind-Value="Model!.status">
+        <option value="Provisional">Provisional</option>
+        <option value="Confirmed">Confirmed</option>
+        <option value="Cancelled">Cancelled</option>
+      </InputSelect>
+    </label>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Room Type</th>
+        <th>Dates</th>
+        <th>Nights</th>
+        <th>Capacity</th>
+        <th>Names</th>
+      </tr>
+    </thead>
+  </table>
+  <a class="btn btn-primary mt-2" href="bookings">Cancel</a>
+  <button class="btn btn-primary mt-2">Save</button>
+</EditForm>
+
+@code {
+  [SupplyParameterFromForm]
+  private BookingService.Booking? Model { get; set; }
+
+  private List<HotelService.Hotel> hotels = [];
+
+  protected override void OnInitialized()
+  {
+    var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+
+    int id = 0;
+
+    if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("id", out var idString))
+    {
+      id = Convert.ToInt32(idString);
+    }
+
+    using (var connection = new SqliteConnection("Data Source=databases/HotelRoomAllocator.sqlite"))
+    {
+      connection.Open();
+
+      var command = connection.CreateCommand();
+      command.CommandText = @"SELECT id, name FROM hotel";
+      var reader = command.ExecuteReader();
+
+      while (reader.Read())
+      {
+        HotelService.Hotel hotel = new(reader.GetInt32(0), reader.GetString(1), "", "", "", "", "", "");
+        hotels.Add(hotel);
+      }
+    }
+
+    var booking = BookingService.Get(id);
+
+    Model ??= booking;
+  }
+  private void Save(EditContext context)
+  {
+    var booking = (BookingService.Booking)context.Model;
+
+    if (booking.id == 0)
+    {
+      BookingService.Create(booking);
+    }
+    else
+    {
+      BookingService.Update(booking);
+    }
+
+    NavigationManager.NavigateTo("/bookings");
+  }
+}

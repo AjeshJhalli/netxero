@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("netxero")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ead43bc85ba181e3b8f36765bb34996eea8eb4ed")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cb9c57fd1e51835bff2fa255ab3b43596819595b")]
 [assembly: System.Reflection.AssemblyProductAttribute("netxero")]
 [assembly: System.Reflection.AssemblyTitleAttribute("netxero")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

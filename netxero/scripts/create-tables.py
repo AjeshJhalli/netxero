@@ -32,7 +32,7 @@ cur.execute("""CREATE TABLE IF NOT EXISTS booking (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   creation_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
   hotel_id INTEGER,
-  booking_status TEXT
+  status TEXT
 )""");
 
 cur.execute("""CREATE TABLE IF NOT EXISTS room (
