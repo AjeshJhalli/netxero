@@ -25,6 +25,31 @@ static class BookingService
     }
   };
 
+  public class Room
+  {
+    public int id { get; set; } = 0;
+    public string idString
+    {
+      get { return id.ToString(); }
+      set { id = int.Parse(value); }
+    }
+    public int bookingId { get; set; } = 0;
+    public string type { get; set; } = "";
+    public DateOnly dateStart { get; set; } = new DateOnly();
+    public int capacity { get; set; } = 1;
+    public int nights { get; set; } = 1;
+
+    public Room(int _id, int _bookingId, string _type, DateOnly _dateStart, int _capacity, int _nights)
+    {
+      id = _id;
+      bookingId = _bookingId;
+      type = _type;
+      dateStart = _dateStart;
+      capacity = _capacity;
+      nights = _nights;
+    }
+  }
+
   public static void Create(Booking booking)
   {
     using (var connection = new SqliteConnection("Data Source=databases/HotelRoomAllocator.sqlite"))

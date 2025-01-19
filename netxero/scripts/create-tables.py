@@ -48,6 +48,7 @@ cur.execute("""CREATE TABLE IF NOT EXISTS room (
 cur.execute("""CREATE TABLE IF NOT EXISTS allocation (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   creation_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+  booking_id INTEGER,
   room_id INTEGER,
   person_id INTEGER
 )""");

@@ -6,12 +6,21 @@
 
 <PageTitle>Booking</PageTitle>
 
-<h1>Booking</h1>
+
 
 <EditForm Model="Model" OnValidSubmit="Save" FormName="bookingform">
   <AntiforgeryToken />
   <DataAnnotationsValidator />
   <ValidationSummary />
+
+  <div class="d-flex justify-content-between">
+    <h3>Booking @if (Model != null) @Model.id</h3>
+    <div class="d-flex gap-1">
+      <a class="btn btn-primary mt-2" href="bookings">Cancel</a>
+      <button class="btn btn-primary mt-2">Save</button>
+    </div>
+  </div>
+
   <div class="form-group">
     <label>
       Hotel
@@ -33,19 +42,64 @@
       </InputSelect>
     </label>
   </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Room Type</th>
-        <th>Dates</th>
-        <th>Nights</th>
-        <th>Capacity</th>
-        <th>Names</th>
-      </tr>
-    </thead>
-  </table>
-  <a class="btn btn-primary mt-2" href="bookings">Cancel</a>
-  <button class="btn btn-primary mt-2">Save</button>
+  <div class="form-group">
+    <label>
+      Dates
+      <div></div>
+    </label>
+  </div>
+  <hr>
+  <h4>Rooms</h4>
+  <div class="d-flex gap-3">
+    <div>
+      <ol class="list-group list-group-numbered flex-grow">
+        @for (var i = 1; i < rooms.Count + 1; i++)
+        {
+          var index = i;
+          var room = rooms[i - 1];
+          
+          <li class="list-group-item" @onclick="() => SelectRoom(room)">
+            @room.type; @room.dateStart - @room.dateStart; Capacity: @room.capacity; Nights: @room.nights
+            <button class="btn btn-secondary btn-sm" type="button" @onclick="() => RemoveRoom(index - 1)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x"
+                viewBox="0 0 16 16">
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+              </svg>
+            </button>
+          </li>
+        }
+      </ol>
+      <button class="btn btn-secondary" type="button" @onclick="() => NewRoom()">Add Room</button>
+    </div>
+    @if (activeRoom != null)
+    {
+      <div>
+        <div class="form-group">
+          <label>Room Type</label>
+          <InputSelect class="form-select" @bind-Value="activeRoom.type">
+            <option value="Single">Single</option>
+            <option value="Double">Double</option>
+            <option value="King">King</option>
+            <option value="Queen">Queen</option>
+            <option value="Double-Double">Double-Double</option>
+          </InputSelect>
+        </div>
+        <div class="form-group">
+          <label>Start Date</label>
+          <InputDate class="form-control" @bind-Value="activeRoom.dateStart" />
+        </div>
+        <div class="form-group">
+          <label>Capacity</label>
+          <InputNumber class="form-control" @bind-Value="activeRoom.capacity" />
+        </div>
+        <div class="form-group">
+          <label>Nights</label>
+          <InputNumber class="form-control" @bind-Value="activeRoom.nights" />
+        </div>
+      </div>
+    }
+  </div>
 </EditForm>
 
 @code {
@@ -53,6 +107,8 @@
   private BookingService.Booking? Model { get; set; }
 
   private List<HotelService.Hotel> hotels = [];
+  private List<BookingService.Room> rooms = [];
+  private BookingService.Room? activeRoom;
 
   protected override void OnInitialized()
   {
@@ -84,6 +140,31 @@
 
     Model ??= booking;
   }
+
+  private void NewRoom()
+  {
+    var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+
+    int id = 0;
+
+    if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("id", out var idString))
+    {
+      id = Convert.ToInt32(idString);
+    }
+
+    rooms.Add(new BookingService.Room(0, id, "Single", new DateOnly(), 1, 1));
+  }
+
+  private void SelectRoom(BookingService.Room room)
+  {
+    activeRoom = room;
+  }
+
+  private void RemoveRoom(int index)
+  {
+    rooms.RemoveAt(index);
+  }
+
   private void Save(EditContext context)
   {
     var booking = (BookingService.Booking)context.Model;
